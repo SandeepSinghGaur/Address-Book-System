@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AddressBook
 {
-    class AddressBookImple:IAddressBook
+    class AddressBookImple : IAddressBook
     {
         public string firstName;
         public string lastName;
@@ -63,6 +63,27 @@ namespace AddressBook
             foreach (Person addPerson in personList)
                 Console.WriteLine(addPerson.toString());
         }
+        /// <summary>
+        /// Delete The Person Detail
+        /// </summary>
+        public void DeletePerson()
+        {
+            Console.WriteLine("Enter your Delete person details");
+            string search = Console.ReadLine();
+            int index = 0;
+            Console.WriteLine("Size before deleting::" + personList.Count);
+            foreach (Person delPerson in personList)
+            {
+                if (search.Equals(delPerson.firstName))
+                {
+                    index = personList.IndexOf(delPerson);
+                    personList.RemoveAt(index);
+                    Console.WriteLine("Size after deletion::" + personList.Count);
+                    break;
+                }
 
+            }
+
+        }
     }
 }

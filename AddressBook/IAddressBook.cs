@@ -11,5 +11,6 @@ namespace AddressBook
     {
         void AddPerson();
         void EditPerson();
+        void DeletePerson();
     }
 }

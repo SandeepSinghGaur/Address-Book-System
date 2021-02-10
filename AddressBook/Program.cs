@@ -15,7 +15,7 @@ namespace AddressBook
             while (true)
             {
                 Console.WriteLine("1)Add Person in AddressBook\n" + "2)Edit Person in Address\n" + "3)Delete Person in AddressBook\n"
-                                           + "4)Display addressBook\n"+ "5)SearchPerson");
+                                           + "4)Display addressBook\n"+ "5)SearchPerson"+"6)ViewAddressBook");
                 try
                 {
                     var choice = Convert.ToInt32(Console.ReadLine());
@@ -35,6 +35,9 @@ namespace AddressBook
                             break;
                         case 5:
                             addressBook.SearchPerson();
+                            break;
+                        case 6:
+                            addressBook.ViewAddressBook();
                             break;
                         default:
                             Console.Write("Please Enter correct option");

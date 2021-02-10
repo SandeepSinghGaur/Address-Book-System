@@ -15,6 +15,8 @@ namespace AddressBook
         public string mobileNumber;
         List<Person> personList = new List<Person>();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
+        Dictionary<string, string> stateDictionary = new Dictionary<string, string>();
+        Dictionary<string, string> cityDictionary = new Dictionary<string, string>();
         bool i = true;
         int checkForDuplicate = 0;
 
@@ -158,6 +160,38 @@ namespace AddressBook
                         {
                             Console.WriteLine(person.toString());
                         }
+                        break;
+                }
+            }
+            catch (System.FormatException)
+            {
+                throw new AddressBookException("Please enter correct input");
+            }
+        }
+        /// <summary>
+        /// view the persons in addressbook by using city or state
+        /// </summary>
+        public void ViewAddressBook()
+        {
+            Console.WriteLine("Choose how you want to view by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
+            try
+            {
+                int choose = Convert.ToInt32(Console.ReadLine());
+                switch (choose)
+                {
+                    case 1:
+                        Console.WriteLine("Enter city name to view person");
+                        string viewCity = Console.ReadLine();
+                        var searchCity = cityDictionary.Where(x => x.Value.Equals(viewCity));
+                        foreach (var result in searchCity)
+                            Console.WriteLine("Firstname:{0} , City:{1}", result.Key, result.Value);
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter state name to view person");
+                        string viewState = Console.ReadLine();
+                        var searchState = stateDictionary.Where(x => x.Value.Equals(viewState));
+                        foreach (var result in searchState)
+                            Console.WriteLine("Firstname:{0} , State:{1}", result.Key, result.Value);
                         break;
                 }
             }

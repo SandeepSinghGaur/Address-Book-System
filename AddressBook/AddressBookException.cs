@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AddressBook
 {
-    class AddressBookException : Exception
+   public class AddressBookException : Exception
     {
 
         public AddressBookException(string message) : base(message)

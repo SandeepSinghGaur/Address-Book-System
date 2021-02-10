@@ -12,8 +12,8 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
-        Person person;
         List<Person> personList = new List<Person>();
+        Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
 
 
         /// <summary>
@@ -21,7 +21,9 @@ namespace AddressBook
         /// </summary>
         public void AddPerson()
         {
-            for (int i = 1; i <= 2; i++)
+            Console.WriteLine("please enter number of persons to be added");
+            int noOfPersons = Convert.ToInt32(Console.ReadLine());
+            for (int i = 1; i <= noOfPersons; i++)
             {
                 Console.WriteLine("Enter Firstname");
             firstName = Console.ReadLine();

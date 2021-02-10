@@ -11,6 +11,9 @@ namespace AddressBook
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to addressBook ");
+            AddressBookImple addressBook = new AddressBookImple();
+            addressBook.AddPerson();
+            addressBook.EditPerson();
             Console.ReadKey();
 
         }

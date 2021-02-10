@@ -10,5 +10,6 @@ namespace AddressBook
     interface IAddressBook
     {
         void AddPerson();
+        void EditPerson();
     }
 }

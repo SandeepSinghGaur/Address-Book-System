@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AddressBook
 {
-    class AddressBookImple
+    class AddressBookImple:IAddressBook
     {
         public string firstName;
         public string lastName;
@@ -18,7 +18,7 @@ namespace AddressBook
         /// <summary>
         /// Add the User in the Address Book
         /// </summary>
-        public void AddUser()
+        public void AddPerson()
         {
             Console.WriteLine("Enter Firstname");
             firstName = Console.ReadLine();
@@ -37,5 +37,32 @@ namespace AddressBook
                 Console.WriteLine(addPerson.toString());
 
         }
+        /// <summary>
+        /// Edit Contact of the Address book 
+        /// </summary>
+        public void EditPerson()
+        {
+            Console.WriteLine("Enter Edit Person details");
+            String edit = Console.ReadLine();
+
+            foreach (Person editPerson in personList)
+            {
+                Console.WriteLine("Enter Firstname");
+                editPerson.firstName = Console.ReadLine();
+                Console.WriteLine("Enter Lastname");
+                editPerson.lastName = Console.ReadLine();
+                Console.WriteLine("Enter city");
+                editPerson.city = Console.ReadLine();
+                Console.WriteLine("Enter state");
+                editPerson.state = Console.ReadLine();
+                Console.WriteLine("Enter Zip");
+                editPerson.zip = Console.ReadLine();
+                Console.WriteLine("Enter Mobile number");
+                editPerson.mobileNumber = Console.ReadLine();
+            }
+            foreach (Person addPerson in personList)
+                Console.WriteLine(addPerson.toString());
+        }
+
     }
 }

@@ -12,6 +12,7 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
+        Person person;
         List<Person> personList = new List<Person>();
 
 
@@ -20,7 +21,9 @@ namespace AddressBook
         /// </summary>
         public void AddPerson()
         {
-            Console.WriteLine("Enter Firstname");
+            for (int i = 1; i <= 2; i++)
+            {
+                Console.WriteLine("Enter Firstname");
             firstName = Console.ReadLine();
             Console.WriteLine("Enter Lastname");
             lastName = Console.ReadLine();
@@ -33,10 +36,9 @@ namespace AddressBook
             Console.WriteLine("Enter Mobile number");
             mobileNumber = Console.ReadLine();
             personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
-            foreach (Person addPerson in personList)
-                Console.WriteLine(addPerson.toString());
-
         }
+        Display();
+    }
         /// <summary>
         /// Edit Contact of the Address book 
         /// </summary>
@@ -60,30 +62,37 @@ namespace AddressBook
                 Console.WriteLine("Enter Mobile number");
                 editPerson.mobileNumber = Console.ReadLine();
             }
-            foreach (Person addPerson in personList)
-                Console.WriteLine(addPerson.toString());
+            Display();
         }
         /// <summary>
         /// Delete The Person Detail
         /// </summary>
-        public void DeletePerson()
+        public void DeletePerson() 
         {
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
             Console.WriteLine("Size before deleting::" + personList.Count);
-            foreach (Person delPerson in personList)
-            {
-                if (search.Equals(delPerson.firstName))
+           
+                foreach (Person delPerson in personList)
                 {
-                    index = personList.IndexOf(delPerson);
-                    personList.RemoveAt(index);
-                    Console.WriteLine("Size after deletion::" + personList.Count);
-                    break;
+                    if (search.Equals(delPerson.firstName))
+                    {
+                        index = personList.IndexOf(delPerson);
+                        personList.RemoveAt(index);
+                        Console.WriteLine("Size after deletion::" + personList.Count);
+                        break;
+                    }
                 }
 
-            }
-
+        }
+        /// <summary>
+        /// Displays this list.
+        /// </summary>
+        public void Display()
+        {
+            foreach (Person person in personList)
+                Console.WriteLine(person.toString());
         }
     }
 }

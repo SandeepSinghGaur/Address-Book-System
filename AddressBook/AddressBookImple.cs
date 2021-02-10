@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AddressBook
@@ -133,6 +134,37 @@ namespace AddressBook
                 AddPerson();
             }
 
+        }
+        public void SearchPerson()
+        {
+            Console.WriteLine("Choose you want to search by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
+            try
+            {
+                int choose = Convert.ToInt32(Console.ReadLine());
+                switch (choose)
+                {
+                    case 1:
+                        Console.WriteLine("Enter city name to search");
+                        string searchCity = Console.ReadLine();
+                        foreach (Person person in personList.FindAll(s => s.city.Equals(searchCity)).ToList())
+                        {
+                            Console.WriteLine(person.toString());
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter state name to search");
+                        string searchState = Console.ReadLine();
+                        foreach (Person person in personList.FindAll(s => s.state.Equals(searchState)).ToList())
+                        {
+                            Console.WriteLine(person.toString());
+                        }
+                        break;
+                }
+            }
+            catch (System.FormatException)
+            {
+                throw new AddressBookException("Please enter correct input");
+            }
         }
     }
 }

@@ -14,6 +14,8 @@ namespace AddressBook
         public string mobileNumber;
         List<Person> personList = new List<Person>();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
+        bool i = true;
+        int checkForDuplicate = 0;
 
 
         /// <summary>
@@ -21,25 +23,43 @@ namespace AddressBook
         /// </summary>
         public void AddPerson()
         {
-            Console.WriteLine("please enter number of persons to be added");
-            int noOfPersons = Convert.ToInt32(Console.ReadLine());
-            for (int i = 1; i <= noOfPersons; i++)
+            i = true;
+            while (i)
             {
-                Console.WriteLine("Enter Firstname");
-            firstName = Console.ReadLine();
-            Console.WriteLine("Enter Lastname");
-            lastName = Console.ReadLine();
-            Console.WriteLine("Enter city");
-            city = Console.ReadLine();
-            Console.WriteLine("Enter state");
-            state = Console.ReadLine();
-            Console.WriteLine("Enter Zip");
-            zip = Console.ReadLine();
-            Console.WriteLine("Enter Mobile number");
-            mobileNumber = Console.ReadLine();
-            personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
-        }
-        Display();
+                try
+                {
+
+                    Console.WriteLine("Enter Firstname");
+                    firstName = Console.ReadLine();
+                    Console.WriteLine("Enter Lastname");
+                    lastName = Console.ReadLine();
+                    Console.WriteLine("Enter city");
+                    city = Console.ReadLine();
+                    Console.WriteLine("Enter state");
+                    state = Console.ReadLine();
+                    Console.WriteLine("Enter Zip");
+                    zip = Console.ReadLine();
+                    Console.WriteLine("Enter Mobile number");
+                    mobileNumber = Console.ReadLine();
+                    CheckForDuplicate(firstName);
+                    Console.WriteLine("want to add more contacts then press 1 or press other than 1");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    if (choice == 1)
+                        AddPerson();
+                    else
+                        i = false;
+
+                }
+                catch (System.FormatException)
+                {
+
+                    throw new AddressBookException("Please enter valid number");
+                }
+
+            }
+
+
+        
     }
         /// <summary>
         /// Edit Contact of the Address book 
@@ -51,18 +71,21 @@ namespace AddressBook
 
             foreach (Person editPerson in personList)
             {
-                Console.WriteLine("Enter Firstname");
-                editPerson.firstName = Console.ReadLine();
-                Console.WriteLine("Enter Lastname");
-                editPerson.lastName = Console.ReadLine();
-                Console.WriteLine("Enter city");
-                editPerson.city = Console.ReadLine();
-                Console.WriteLine("Enter state");
-                editPerson.state = Console.ReadLine();
-                Console.WriteLine("Enter Zip");
-                editPerson.zip = Console.ReadLine();
-                Console.WriteLine("Enter Mobile number");
-                editPerson.mobileNumber = Console.ReadLine();
+                if (edit.Equals(editPerson.firstName))
+                {
+                    Console.WriteLine("Enter Firstname");
+                    editPerson.firstName = Console.ReadLine();
+                    Console.WriteLine("Enter Lastname");
+                    editPerson.lastName = Console.ReadLine();
+                    Console.WriteLine("Enter city");
+                    editPerson.city = Console.ReadLine();
+                    Console.WriteLine("Enter state");
+                    editPerson.state = Console.ReadLine();
+                    Console.WriteLine("Enter Zip");
+                    editPerson.zip = Console.ReadLine();
+                    Console.WriteLine("Enter Mobile number");
+                    editPerson.mobileNumber = Console.ReadLine();
+                }
             }
             Display();
         }
@@ -95,6 +118,21 @@ namespace AddressBook
         {
             foreach (Person person in personList)
                 Console.WriteLine(person.toString());
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="firstname">The firstname.</param>
+        public void CheckForDuplicate(string firstname)
+        {
+            if (person.ContainsKey(firstname))
+            {
+
+                Console.WriteLine("Contact already exists");
+                checkForDuplicate = 1;
+                AddPerson();
+            }
+
         }
     }
 }

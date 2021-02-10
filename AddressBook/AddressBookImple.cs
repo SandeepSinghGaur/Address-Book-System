@@ -62,8 +62,8 @@ namespace AddressBook
             }
 
 
-        
-    }
+
+        }
         /// <summary>
         /// Edit Contact of the Address book 
         /// </summary>
@@ -95,23 +95,23 @@ namespace AddressBook
         /// <summary>
         /// Delete The Person Detail
         /// </summary>
-        public void DeletePerson() 
+        public void DeletePerson()
         {
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
             Console.WriteLine("Size before deleting::" + personList.Count);
-           
-                foreach (Person delPerson in personList)
+
+            foreach (Person delPerson in personList)
+            {
+                if (search.Equals(delPerson.firstName))
                 {
-                    if (search.Equals(delPerson.firstName))
-                    {
-                        index = personList.IndexOf(delPerson);
-                        personList.RemoveAt(index);
-                        Console.WriteLine("Size after deletion::" + personList.Count);
-                        break;
-                    }
+                    index = personList.IndexOf(delPerson);
+                    personList.RemoveAt(index);
+                    Console.WriteLine("Size after deletion::" + personList.Count);
+                    break;
                 }
+            }
 
         }
         /// <summary>
@@ -200,5 +200,46 @@ namespace AddressBook
                 throw new AddressBookException("Please enter correct input");
             }
         }
+        public void CountPerson()
+        {
+            Console.WriteLine("Choose how you want to count by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
+            try
+            {
+                int choose = Convert.ToInt32(Console.ReadLine());
+                switch (choose)
+                {
+                    case 1:
+                        Console.WriteLine("Enter city name to search");
+                        string countCity = Console.ReadLine();
+                        int countByCity = personList.FindAll(s => s.city.Equals(countCity)).Count;
+                        Console.WriteLine("No of persons present in addressbook for " + countCity + " is::" + countByCity);
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter state name to search");
+                        string countState = Console.ReadLine();
+                        int countByState = personList.FindAll(s => s.state.Equals(countState)).Count;
+                        Console.WriteLine("No of persons present in addressbook for " + countState + " is::" + countByState);
+                        break;
+                }
+            }
+            catch (System.FormatException)
+            {
+                throw new AddressBookException("Please enter correct input");
+            }
+        }
+
+        /// <summary>
+        /// Sorts the first name of the by.
+        /// </summary>
+        public void SortByFirstName()
+        {
+            var result = personList.OrderBy(x => x.firstName);
+            foreach (var sortPerson in result)
+            {
+                Console.WriteLine(sortPerson.toString());
+            }
+        }
     }
 }
+
+

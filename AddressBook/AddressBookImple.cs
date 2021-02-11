@@ -28,7 +28,7 @@ namespace AddressBook
         /// </summary>
         public void AddPerson(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            personList = readWrite.ReadCsv(filename);
             Console.WriteLine(personList.Count);
             i = true;
             while (i)
@@ -71,7 +71,7 @@ namespace AddressBook
                     throw new AddressBookException("Please enter valid number");
                 }
             }
-            readWrite.WriteText(filename, personList);
+            readWrite.WriteCsv(filename, personList);
         }
     
         /// <summary>
@@ -101,7 +101,7 @@ namespace AddressBook
                     editPerson.mobileNumber = Console.ReadLine();
                 }
             }
-            readWrite.WriteText(filename, personList);
+            readWrite.WriteCsv(filename, personList);
             Display(filename);
            
         }
@@ -110,7 +110,7 @@ namespace AddressBook
         /// </summary>
         public void DeletePerson(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            personList = readWrite.ReadCsv(filename);
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
@@ -125,7 +125,7 @@ namespace AddressBook
                     break;
                 }
             }
-            readWrite.WriteText(filename, personList);
+            readWrite.WriteCsv(filename, personList);
 
         }
         /// <summary>
@@ -133,7 +133,7 @@ namespace AddressBook
         /// </summary>
         public void Display(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            personList = readWrite.ReadCsv(filename);
             if (personList.Count == 0)
                 Console.WriteLine("No contact data to display ");
             foreach (Person person in personList)

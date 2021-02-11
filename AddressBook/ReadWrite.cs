@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-
+using System.Linq;
+using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace AddressBook
 {
@@ -56,7 +59,7 @@ namespace AddressBook
         /// </summary>
         public void ShowFiles()
         {
-            string path = @"G:\Repos\Address-Book-System\AddressBook\AddressBook.txt";
+            string path = @"G:\Repos\Address-Book-System\AddressBook\AddressBook.txtAddressBook";
             using (StreamReader sr = File.OpenText(path))
             {
                 string fileArray = " ";
@@ -67,6 +70,42 @@ namespace AddressBook
 
             }
 
+        }
+        /// <summary>
+        /// Writes the CSV.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <param name="list">The list.</param>
+        public void WriteCsv(string filename, List<Person> list)
+        {
+            string path = @"G:\Repos\Address-Book-System\AddressBook\EmptyAddress.csv" + filename;
+            using (var writer = new StreamWriter(path))
+            using (var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csvWriter.WriteHeader<Person>();
+                csvWriter.NextRecord();
+                csvWriter.WriteRecords(list);
+                writer.Flush();
+                writer.Close();
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the CSV.
+        /// </summary>
+        /// <param name="Filename">The filename.</param>
+        /// <returns></returns>
+        public List<Person> ReadCsv(string Filename)
+        {
+            List<Person> person = new List<Person>();
+            string path = @"G:\Repos\Address-Book-System\AddressBook\AddressBook.txtAddress.csv";
+            using (var reader=new StreamReader(path))
+                using(var csv=new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                person = csv.GetRecords<Person>().ToList();
+            }
+            return person;
         }
     }
 }

@@ -1,4 +1,1 @@
-﻿Firstname,Lastname,address,city,state,zip,mobilenumber
-sandeep,singh,Mahoba,UP,210433,945117854
-shivam,saini,sharanpur,UP,456789,1234567890
-samyak,jain,Bhopal,MP,781622,88856831098
+﻿

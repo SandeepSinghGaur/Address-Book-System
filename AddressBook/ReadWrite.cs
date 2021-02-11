@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Newtonsoft.Json;
 
 namespace AddressBook
 {
@@ -105,6 +106,30 @@ namespace AddressBook
             {
                 person = csv.GetRecords<Person>().ToList();
             }
+            return person;
+        }
+        /// <summary>
+        /// Writes the json.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <param name="person">The person.</param>
+        public void WriteJson(string filename, List<Person> person)
+        {
+            string path = @"G:\Repos\Address-Book-System\AddressBook\jsconAddress.json" + filename;
+            string json = JsonConvert.SerializeObject(person.ToArray());
+            File.WriteAllText(path, json);
+        }
+
+        /// <summary>
+        /// Reads from json.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <returns></returns>
+        public List<Person> ReadFromJson(string filename)
+        {
+            string path = @"G:\Repos\Address-Book-System\AddressBook\jsconAddress.json" + filename;
+            string jsonFile = File.ReadAllText(path);
+            List<Person> person = JsonConvert.DeserializeObject<List<Person>>(jsonFile);
             return person;
         }
     }

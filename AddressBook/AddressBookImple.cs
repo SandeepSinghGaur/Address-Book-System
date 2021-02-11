@@ -28,7 +28,7 @@ namespace AddressBook
         /// </summary>
         public void AddPerson(string filename)
         {
-            personList = readWrite.ReadCsv(filename);
+            personList = readWrite.ReadFromJson(filename);
             Console.WriteLine(personList.Count);
             i = true;
             while (i)
@@ -71,7 +71,7 @@ namespace AddressBook
                     throw new AddressBookException("Please enter valid number");
                 }
             }
-            readWrite.WriteCsv(filename, personList);
+           
         }
     
         /// <summary>

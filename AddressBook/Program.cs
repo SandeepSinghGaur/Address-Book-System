@@ -12,39 +12,47 @@ namespace AddressBook
         {
             Console.WriteLine("Welcome to addressBook ");
             AddressBookImple addressBook = new AddressBookImple();
+            ReadWrite readWrite = new ReadWrite();
             while (true)
             {
+                Console.WriteLine("Printing list of files");
+                readWrite.ShowFiles();
+                Console.WriteLine("Enter your filename in which u want to perform operation");
+                string filename = Console.ReadLine();
                 Console.WriteLine("1)Add Person in AddressBook\n" + "2)Edit Person in Address\n" + "3)Delete Person in AddressBook\n"
-                                           + "4)Display addressBook\n"+ "5)SearchPerson"+"6)ViewAddressBook"+"7)CountPersons\n"
-                                           + "8)sortByFirstName");
+                                           + "4)Display addressBook\n"+ "5)SearchPerson\n"+"6)ViewAddressBook\n"+"7)CountPersons\n"
+                                           + "8)sortByFirstName\n" + "9)SortByOthers");
                 try
                 {
                     var choice = Convert.ToInt32(Console.ReadLine());
                     switch (choice)
                     {
                         case 1:
-                            addressBook.AddPerson();
+                            addressBook.AddPerson(filename);
                             break;
                         case 2:
-                            addressBook.EditPerson();
+                            addressBook.EditPerson(filename);
                             break;
                         case 3:
-                            addressBook.DeletePerson();
+                            addressBook.DeletePerson(filename);
                             break;
                         case 4:
-                            addressBook.Display();
+                            addressBook.Display(filename);
                             break;
                         case 5:
-                            addressBook.SearchPerson();
+                            addressBook.SearchPerson(filename);
                             break;
                         case 6:
                             addressBook.ViewAddressBook();
                             break;
                         case 7:
-                            addressBook.CountPerson();
+                            addressBook.CountPerson(filename);
                             break;
                         case 8:
-                            addressBook.SortByFirstName();
+                            addressBook.SortByFirstName(filename);
+                            break;
+                        case 9:
+                            addressBook.SortByOthers(filename);
                             break;
                         default:
                             Console.Write("Please Enter correct option");

@@ -14,61 +14,72 @@ namespace AddressBook
         public string zip;
         public string mobileNumber;
         List<Person> personList = new List<Person>();
+        ReadWrite readWrite = new ReadWrite();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
         Dictionary<string, string> stateDictionary = new Dictionary<string, string>();
         Dictionary<string, string> cityDictionary = new Dictionary<string, string>();
+        List<Person> cityList = new List<Person>();
         bool i = true;
-        int checkForDuplicate = 0;
+        int checkForDuplicate;
 
 
         /// <summary>
         /// Add the User in the Address Book
         /// </summary>
-        public void AddPerson()
+        public void AddPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
+            Console.WriteLine(personList.Count);
             i = true;
             while (i)
             {
                 try
                 {
-
                     Console.WriteLine("Enter Firstname");
                     firstName = Console.ReadLine();
-                    Console.WriteLine("Enter Lastname");
-                    lastName = Console.ReadLine();
-                    Console.WriteLine("Enter city");
-                    city = Console.ReadLine();
-                    Console.WriteLine("Enter state");
-                    state = Console.ReadLine();
-                    Console.WriteLine("Enter Zip");
-                    zip = Console.ReadLine();
-                    Console.WriteLine("Enter Mobile number");
-                    mobileNumber = Console.ReadLine();
-                    CheckForDuplicate(firstName);
-                    Console.WriteLine("want to add more contacts then press 1 or press other than 1");
-                    int choice = Convert.ToInt32(Console.ReadLine());
-                    if (choice == 1)
-                        AddPerson();
+                    if (CheckForDuplicate(firstName))
+                    {
+                        Console.WriteLine("Person already exists");
+                        AddPerson(filename);
+                    }
                     else
-                        i = false;
-
+                    {
+                        Console.WriteLine("Enter Lastname");
+                        lastName = Console.ReadLine();
+                        Console.WriteLine("Enter city");
+                        city = Console.ReadLine();
+                        Console.WriteLine("Enter state");
+                        state = Console.ReadLine();
+                        Console.WriteLine("Enter Zip");
+                        zip = Console.ReadLine();
+                        Console.WriteLine("Enter Mobile number");
+                        mobileNumber = Console.ReadLine();
+                        Console.WriteLine("want to add more contacts then press 1 or press other than 1");
+                        int choice = Convert.ToInt32(Console.ReadLine());
+                        if (choice == 1)
+                            AddPerson(filename);
+                        else
+                            i = false;
+                    }
                 }
-                catch (System.FormatException)
+                catch (System.FormatException formatException)
                 {
-
+                    throw formatException;
+                }
+                catch (AddressBookException)
+                {
                     throw new AddressBookException("Please enter valid number");
                 }
-
             }
-
-
-
+            readWrite.WriteText(filename, personList);
         }
+    
         /// <summary>
         /// Edit Contact of the Address book 
         /// </summary>
-        public void EditPerson()
+        public void EditPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Enter Edit Person details");
             String edit = Console.ReadLine();
 
@@ -90,18 +101,20 @@ namespace AddressBook
                     editPerson.mobileNumber = Console.ReadLine();
                 }
             }
-            Display();
+            readWrite.WriteText(filename, personList);
+            Display(filename);
+           
         }
         /// <summary>
         /// Delete The Person Detail
         /// </summary>
-        public void DeletePerson()
+        public void DeletePerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
             Console.WriteLine("Size before deleting::" + personList.Count);
-
             foreach (Person delPerson in personList)
             {
                 if (search.Equals(delPerson.firstName))
@@ -112,13 +125,17 @@ namespace AddressBook
                     break;
                 }
             }
+            readWrite.WriteText(filename, personList);
 
         }
         /// <summary>
         /// Displays this list.
         /// </summary>
-        public void Display()
+        public void Display(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
+            if (personList.Count == 0)
+                Console.WriteLine("No contact data to display ");
             foreach (Person person in personList)
                 Console.WriteLine(person.toString());
         }
@@ -126,19 +143,25 @@ namespace AddressBook
         /// 
         /// </summary>
         /// <param name="firstname">The firstname.</param>
-        public void CheckForDuplicate(string firstname)
+        public bool CheckForDuplicate(string firstname)
         {
-            if (person.ContainsKey(firstname))
+            bool result = false;
+            foreach (Person person in personList)
             {
-
-                Console.WriteLine("Contact already exists");
-                checkForDuplicate = 1;
-                AddPerson();
+                if (person.firstName.Equals(firstName))
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
             }
-
+            return result;
         }
-        public void SearchPerson()
+        public void SearchPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Choose you want to search by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
@@ -149,23 +172,23 @@ namespace AddressBook
                         Console.WriteLine("Enter city name to search");
                         string searchCity = Console.ReadLine();
                         foreach (Person person in personList.FindAll(s => s.city.Equals(searchCity)).ToList())
-                        {
                             Console.WriteLine(person.toString());
-                        }
                         break;
                     case 2:
                         Console.WriteLine("Enter state name to search");
                         string searchState = Console.ReadLine();
                         foreach (Person person in personList.FindAll(s => s.state.Equals(searchState)).ToList())
-                        {
                             Console.WriteLine(person.toString());
-                        }
                         break;
                 }
             }
-            catch (System.FormatException)
+            catch (System.FormatException formatException)
             {
-                throw new AddressBookException("Please enter correct input");
+                throw formatException;
+            }
+            catch (AddressBookException)
+            {
+                throw new AddressBookException("Please enter valid number");
             }
         }
         /// <summary>
@@ -195,13 +218,18 @@ namespace AddressBook
                         break;
                 }
             }
-            catch (System.FormatException)
+            catch (System.FormatException formatException)
             {
-                throw new AddressBookException("Please enter correct input");
+                throw formatException;
+            }
+            catch (AddressBookException)
+            {
+                throw new AddressBookException("Please enter valid number");
             }
         }
-        public void CountPerson()
+        public void CountPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Choose how you want to count by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
@@ -222,21 +250,57 @@ namespace AddressBook
                         break;
                 }
             }
-            catch (System.FormatException)
+            catch (System.FormatException formatException)
             {
-                throw new AddressBookException("Please enter correct input");
+                throw formatException;
+            }
+            catch (AddressBookException)
+            {
+                throw new AddressBookException("Please enter valid number");
             }
         }
-
         /// <summary>
         /// Sorts the first name of the by.
         /// </summary>
-        public void SortByFirstName()
+        public void SortByFirstName(string filename)
         {
+
+            personList = readWrite.ReadTxt(filename);
             var result = personList.OrderBy(x => x.firstName);
             foreach (var sortPerson in result)
             {
                 Console.WriteLine(sortPerson.toString());
+            }
+        }
+        /// <summary>
+        /// Sorts the by others.
+        /// </summary>
+        public void SortByOthers(string filename)
+        {
+            personList = readWrite.ReadTxt(filename);
+            Console.WriteLine("Choose how you want to sort");
+            Console.WriteLine("1)SortByCity\n" + "2)SortByState\n" + "3)SortByZip");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    var result = personList.OrderBy(x => x.city);
+                    foreach (var sortByCity in result)
+                        Console.WriteLine(sortByCity.toString());
+                    break;
+                case 2:
+                    var stateResult = personList.OrderBy(x => x.state);
+                    foreach (var sortByState in stateResult)
+                        Console.WriteLine(sortByState.toString());
+                    break;
+                case 3:
+                    var zipResult = personList.OrderBy(x => x.zip);
+                    foreach (var sortByZip in zipResult)
+                        Console.WriteLine(sortByZip.toString());
+                    break;
+                default:
+                    Console.WriteLine("Please enter correct option");
+                    break;
             }
         }
     }

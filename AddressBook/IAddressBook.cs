@@ -9,8 +9,8 @@ namespace AddressBook
     /// </summary>
     interface IAddressBook
     {
-        void AddPerson();
-        void EditPerson();
-        void DeletePerson();
+        void AddPerson(string filename);
+        void EditPerson(string filename);
+        void DeletePerson(string filename);
     }
 }
